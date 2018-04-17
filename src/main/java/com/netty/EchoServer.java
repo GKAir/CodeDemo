@@ -7,9 +7,10 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.channel.socket.nio.NioSocketChannel;
 
 /**
+ * 引导服务器
+ *
  * @author zhangweizhou
  * Email: zhangweizhou@wanhuchina.com
  * Date:  2018/4/14
@@ -31,7 +32,6 @@ public class EchoServer {
         int port = Integer.parseInt(args[0]);
         //调用服务器的start方法
         new EchoServer(port).start();
-
     }
 
     public void start() throws Exception {

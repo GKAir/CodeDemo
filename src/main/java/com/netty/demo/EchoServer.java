@@ -1,4 +1,4 @@
-package com.netty;
+package com.netty.demo;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -7,6 +7,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+
+import java.util.Arrays;
 
 /**
  * 引导服务器
@@ -29,13 +31,15 @@ public class EchoServer {
             System.err.println("Usage:" + EchoServer.class.getSimpleName() + "<port>");
         }
         //设置端口值，如果端口值的格式不正确，则抛出异常
-        int port = Integer.parseInt(args[0]);
+        System.out.println(Arrays.toString(args));
+        int port = Integer.parseInt("8098");
         //调用服务器的start方法
         new EchoServer(port).start();
     }
 
     public void start() throws Exception {
         final EchoServerHandler echoServerHandler = new EchoServerHandler();
+        final DemoServerHandler demoServerHandler = new DemoServerHandler();
         //创建EchoServerHandler
         EventLoopGroup eventLoopGroup = new NioEventLoopGroup();
         try {
@@ -51,7 +55,7 @@ public class EchoServer {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
                             //EchoServerHandler 被标注为@Shareable，所以我们可以总是使用同样的实例
-                            ch.pipeline().addLast(echoServerHandler);
+                            ch.pipeline().addLast(echoServerHandler, demoServerHandler);
                         }
                     });
             //异步地绑定服务器调用 sync()方法阻塞等待直到绑定完成
